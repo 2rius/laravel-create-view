@@ -21,7 +21,7 @@ function createView(view: string) {
 				vscode.window.showInformationMessage('View created.');
 
 				let file = vscode.Uri.file(full_path);
-				vscode.workspace.openTextDocument(file).then(doc => {
+				vscode.workspace.openTextDocument(file).then((doc: any) => {
 					vscode.window.showTextDocument(doc);
 				});
 			})
@@ -34,13 +34,13 @@ function createView(view: string) {
 // this method is called when your extension is activated
 // your extension is activated the very first time the command is executed
 export function activate(context: vscode.ExtensionContext) {
-	let disposable = vscode.commands.registerCommand('extension.createView', view_name => {
+	let disposable = vscode.commands.registerCommand('extension.createView', (view_name: string) => {
 		if (view_name) {
 			createView(view_name);
 		} else {
-			vscode.window.showInputBox().then(_value => {
+			vscode.window.showInputBox().then((_value: any) => {
 				let value: string = String(_value);
-				if (/^[_a-z0-9]+(\.[_a-z0-9]+)*$/.test(value)) {
+				if (/^(?!\.)(?!.*\.\.)([_a-z0-9]+(\.[-_a-z0-9]+)*)?(?!-+$)[-_a-z0-9]*$/.test(value)) {
 					createView(value);
 				} else {
 					vscode.window.showErrorMessage("View path not valid.");
